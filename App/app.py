@@ -31,7 +31,9 @@ import sys
 import csv
 from ADT import list as lt
 from DataStructures import listiterator as it
-from DataStructures import liststructure as lt
+from Sorting import insertionsort as ins
+from Sorting import selectionsort as sel
+from Sorting import shellsort as she
 
 from time import process_time 
 
@@ -41,7 +43,7 @@ def loadCSVFile (file, sep=";"):
     Carga un archivo csv a una lista
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    lst = lt.newList("SINGLE_LINKED") #Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -64,6 +66,7 @@ def printMenu():
     print("2- Contar los elementos de la Lista")
     print("3- Contar elementos filtrados por palabra clave")
     print("4- Consultar elementos a partir de dos listas")
+    print("5 - Ordenar la lista")
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
@@ -91,6 +94,41 @@ def countElementsByCriteria(criteria, column, lst):
     """
     return 0
 
+def less( element1, element2):
+        if int(element1['vote_count']) <  int(element2['vote_count']):
+            return True
+        return False
+
+def greater( element1, element2):
+        if int(element1['vote_average']) >  int(element2['vote_average']):
+            return True
+        return False
+
+def ordenarLista(lista,compFun):
+    tiempo = 0
+    print("\nSeleccione el algoritmo de ordenamiento:\n")
+    print("1- Insertion Sort")
+    print("2- Selection Sort")
+    print("3- Shell Sort")
+    inputs = input('Ingrese una opción para continuar\n')
+    if len(inputs)>0:
+        if int(inputs[0])==1:
+            t1=process_time()
+            ins.insertionSort(lista, compFun)
+            t2=process_time()
+        elif int(inputs[0])==2:
+            t1=process_time()
+            sel.selectionSort(lista,compFun)
+            t2=process_time()
+        elif int(inputs[0])==3:
+            t1=process_time()
+            she.shellSort(lista,compFun)
+            t2=process_time()
+    tiempo=t2-t1
+    return tiempo
+
+
+
 def main():
     lista = None 
     while True:
@@ -98,7 +136,7 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test.csv") #llamar funcion cargar datos
+                lista = loadCSVFile("Data/AllMoviesDetailsCleaned.csv") #llamar funcion cargar datos
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
@@ -118,6 +156,12 @@ def main():
                     criteria =input('Ingrese el criterio de búsqueda\n')
                     counter=countElementsByCriteria(criteria,0,lista)
                     print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
+            elif int(inputs[0])==5:
+                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")
+                else:
+                    tiempo=ordenarLista(lista,less)
+                    print("Tiempo de ejecución: ",tiempo," ms")
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 

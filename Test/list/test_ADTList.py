@@ -26,7 +26,7 @@ from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
 
 
-class insertionSortTest (unittest.TestCase):
+class ADTListTest (unittest.TestCase):
 
     def setUp (self):
         self.book1 = {'book_id':'1', 'book_title':'Title 1', 'author':'author 1'}
@@ -68,6 +68,129 @@ class insertionSortTest (unittest.TestCase):
         book = lt.firstElement(self.lst)
         self.assertDictEqual (book, self.book2)
 
+    def test_arrayAddLast (self):
+        self.lst = lt.newList('ARRAY_LIST')
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.firstElement(self.lst)
+        self.assertDictEqual (book, self.book1)
+        book = lt.lastElement(self.lst)
+        self.assertDictEqual (book, self.book2)
+
+    def test_listAddLast (self):
+        self.lst = lt.newList()
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.firstElement(self.lst)
+        self.assertDictEqual (book, self.book1)
+        book = lt.lastElement(self.lst)
+        self.assertDictEqual (book, self.book2)
+
+    def test_arrayGetElement (self):
+        self.lst = lt.newList('ARRAY_LIST')
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.getElement(self.lst, 1)
+        self.assertDictEqual (book, self.book1)
+        book = lt.getElement(self.lst, 2)
+        self.assertDictEqual (book, self.book2)
+
+    def test_listGetElement (self):
+        self.lst = lt.newList()
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.getElement(self.lst, 1)
+        self.assertDictEqual (book, self.book1)
+        book = lt.getElement(self.lst, 2)
+        self.assertDictEqual (book, self.book2)
+
+    def test_arrayRemoveFirst (self):
+        self.lst = lt.newList('ARRAY_LIST')
+        lt.addLast (self.lst, self.book1)
+        lt.addLast (self.lst, self.book2)
+        lt.removeFirst(self.lst)
+        book = lt.getElement(self.lst, 1)
+        self.assertEqual (lt.isEmpty(self.lst), False)
+        self.assertEqual (lt.size(self.lst), 1)
+        self.assertDictEqual (book, self.book2)
+        lt.removeFirst(self.lst)
+        self.assertEqual (lt.isEmpty(self.lst), True)
+        self.assertEqual (lt.size(self.lst), 0)
+
+    def test_listRemoveFirst (self):
+        self.lst = lt.newList()
+        lt.addLast (self.lst, self.book1)
+        lt.addLast (self.lst, self.book2)
+        lt.removeFirst(self.lst)
+        book = lt.getElement(self.lst, 1)
+        self.assertEqual (lt.isEmpty(self.lst), False)
+        self.assertEqual (lt.size(self.lst), 1)
+        self.assertDictEqual (book, self.book2)
+        lt.removeFirst(self.lst)
+        self.assertEqual (lt.isEmpty(self.lst), True)
+        self.assertEqual (lt.size(self.lst), 0)
+
+    def test_arrayRemoveLast (self):
+        self.lst = lt.newList('ARRAY_LIST')
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        lt.removeLast(self.lst)
+        book = lt.getElement(self.lst, 1)
+        self.assertEqual (lt.isEmpty(self.lst), False)
+        self.assertEqual (lt.size(self.lst), 1)
+        self.assertDictEqual (book, self.book1)
+        lt.removeFirst(self.lst)
+        self.assertEqual (lt.isEmpty(self.lst), True)
+        self.assertEqual (lt.size(self.lst), 0)
+
+    def test_listRemoveLast (self):
+        self.lst = lt.newList()
+        lt.addLast (self.lst, self.book1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.addLast (self.lst, self.book2)
+        self.assertEqual (lt.size(self.lst), 2)
+        lt.removeLast(self.lst)
+        book = lt.getElement(self.lst, 1)
+        self.assertEqual (lt.isEmpty(self.lst), False)
+        self.assertEqual (lt.size(self.lst), 1)
+        self.assertDictEqual (book, self.book1)
+        lt.removeFirst(self.lst)
+        self.assertEqual (lt.isEmpty(self.lst), True)
+        self.assertEqual (lt.size(self.lst), 0)
+
+    def test_arrayInsertElement (self):
+        self.lst = lt.newList('ARRAY_LIST')
+        lt.insertElement (self.lst, self.book1, 1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.insertElement (self.lst, self.book2, 1)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.getElement(self.lst, 1)
+        self.assertDictEqual (book, self.book2)
+        book = lt.getElement(self.lst, 2)
+        self.assertDictEqual (book, self.book1)
+
+    def test_listInsertElement (self):
+        self.lst = lt.newList()
+        lt.insertElement (self.lst, self.book1, 1)
+        self.assertEqual (lt.size(self.lst), 1)
+        lt.insertElement (self.lst, self.book2, 1)
+        self.assertEqual (lt.size(self.lst), 2)
+        book = lt.getElement(self.lst, 1)
+        self.assertDictEqual (book, self.book2)
+        book = lt.getElement(self.lst, 2)
+        self.assertDictEqual (book, self.book1)
 
 if __name__ == "__main__":
     unittest.main()
+
+    
